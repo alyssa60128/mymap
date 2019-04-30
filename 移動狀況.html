@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>移動狀況示範</title>
+	<!-- 主要程式架構參考自 https://developers.google.com/maps/documentation/javascript/examples/event-arguments?hl=zh-tw -->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 80%;
+      }
+    </style>
+	
+	<!-- Firebase程式範例參考自 http://practical-dbm.blogspot.tw/search/label/Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+        apiKey: "AIzaSyADz56HonaalUT7kDSh7TLCS241f9zkYcI",
+        authDomain: "lalala-10d6c.firebaseapp.com",
+        databaseURL: "https://lalala-10d6c.firebaseio.com",
+        projectId: "lalala-10d6c",
+        storageBucket: "lalala-10d6c.appspot.com",
+        messagingSenderId: "346012587093"
+      };
+      firebase.initializeApp(config);
+	</script>
+  </head>
+  <body>
+  
+    <div id="map"></div>
+	
+	<!-- 多增加一個msg區塊用以呈現必要的資訊 -->
+	<p>你的位子會出現在對方手機上!</p>
+	<div id="msg"></div>
+	
+    <script>
+	
+	//將原範例程式在placeMarkerAndPanTo()中的marker變數改成宣告為整體性變數
+	var marker;
+	
+	var map, marker, lat, lng;
+        function initMap() {
+            navigator.geolocation.watchPosition((position) => {
+                console.log(position.coords);
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+                // 初始化地圖
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 18,
+                    center: { lat: lat, lng: lng }
+                });
+                marker = new google.maps.Marker({
+                    position: { lat: lat, lng: lng },
+					animation: google.maps.Animation.BOUNCE,
+                    map: map
+                });
+				document.getElementById("msg").innerHTML = "目前座標: " + marker.position;
+				
+				firebase.database().ref('User00001').set({
+	            currentLat : marker.getPosition().lat(),
+	            currentLng : marker.getPosition().lng()
+	            });
+				
+				//map.addListener('click', function(e) {
+	        	//placeMarkerAndPanTo(e.latLng, map);	
+	            //});
+
+				
+            });
+        }
+
+	function placeMarkerAndPanTo(latLng, map) {
+	  //在新增前先移除舊的標記
+	  marker.setMap(null);
+	  //這裡改成是以整體性變數marker記住新標記
+	  marker = new google.maps.Marker({
+		position: latLng,
+		animation: google.maps.Animation.BOUNCE,
+		map: map
+	  });
+	  map.panTo(latLng);
+	  document.getElementById("msg").innerHTML = "目前座標: " + latLng;
+	  
+	  //將目前座標值寫到Firebase
+	  firebase.database().ref('User00001').set({
+	  currentLat : marker.getPosition().lat(),
+	  currentLng : marker.getPosition().lng()
+	  });
+	}
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap&key=AIzaSyAGd4ccOaUWFPXxVE7hEbyi65f1VlL1pmw" async defer></script>
+  </body>
+</html>

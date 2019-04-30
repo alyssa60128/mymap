@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>同伴監看示範</title>
+	<!-- 主要程式架構參考自 https://developers.google.com/maps/documentation/javascript/examples/event-arguments?hl=zh-tw -->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 80%;
+      }
+    </style>
+	
+	<!-- Firebase程式範例參考自 http://practical-dbm.blogspot.tw/search/label/Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+        apiKey: "AIzaSyADz56HonaalUT7kDSh7TLCS241f9zkYcI",
+        authDomain: "lalala-10d6c.firebaseapp.com",
+        databaseURL: "https://lalala-10d6c.firebaseio.com",
+        projectId: "lalala-10d6c",
+        storageBucket: "lalala-10d6c.appspot.com",
+        messagingSenderId: "346012587093"
+      };
+      firebase.initializeApp(config);
+	</script>
+  </head>
+  <body>
+  
+    <div id="map"></div>
+	
+	<!-- 多增加一個msg區塊用以呈現必要的資訊 -->
+	<p>這裡可以看到對方的位子喔!?</p>
+	<div id="msg"></div>
+	
+    <script>
+	
+	//將原範例程式在placeMarkerAndPanTo()中的marker變數改成宣告為整體性變數
+	var marker;
+	
+	function initMap() {
+	  var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 17,
+		center: {lat: 24.121438, lng: 120.675038 }
+	  });
+	  
+	  marker = new google.maps.Marker({
+		position: {lat: 1, lng: 1 },	//第一個標記放在很遠看不到的
+		map: map
+	  });
+	  
+	  //被陪伴者Firebase的資料一旦有異動就即時取得並在地圖上呈現
+	  firebase.database().ref('User00001').on("value", function(snapshot) {
+	    var pos = {
+		  lat: snapshot.val().currentLat,
+		  lng: snapshot.val().currentLng
+	    };
+	    placeMarkerAndPanTo(pos, map);
+	  });
+	}
+
+	function placeMarkerAndPanTo(latLng, map) {
+	  //在新增前先移除舊的標記
+	  marker.setMap(null);
+	  //這裡改成是以整體性變數marker記住新標記
+	  marker = new google.maps.Marker({
+		position: latLng,
+		animation: google.maps.Animation.BOUNCE,
+		map: map
+	  });
+	  map.panTo(latLng);
+	  document.getElementById("msg").innerHTML = "目前座標: (" + marker.getPosition().lat() + ", " + marker.getPosition().lng() + ")";;
+	}
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap&key=AIzaSyAGd4ccOaUWFPXxVE7hEbyi65f1VlL1pmw" async defer></script>
+  </body>
+</html>
