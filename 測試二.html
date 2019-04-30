@@ -1,0 +1,94 @@
+﻿  <!DOCTYPE html>
+  <html>
+    <head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+	 
+	 <p><font size="5"><b>*你覺得這個網站如何啊?</b></font></p>
+
+	 <a class="waves-effect waves-light btn" button onclick="myFunction()">爛透了，第一次看到這麼不要臉的網站。</a><br><br>
+	 <a class="waves-effect waves-light btn" button onclick="myFunction2()">普通(誰知道你問這存什麼心機，才不跟你說勒。)</a><br><br>
+	 <a class="waves-effect waves-light btn" button onclick="myFunction3()">喜歡!!認真的說，很厲害呀。</a><br><br>
+	 <a class="waves-effect waves-light btn" button onclick="myFunction4()">怎樣都好，反正沒有比我帥/漂亮啦。</a><br><br>
+
+	 <script>
+	    var frisk=0;
+		var love=0;
+		Array.prototype.random = function (length) {
+			return this[Math.floor((Math.random()*length))];
+		}
+
+		function myFunction() {
+			var teams = ["沒眼光!","滾拉!","那你按屁喔!","天使眼睛攻擊!","你才不要臉!","你整個地球都不要臉!"];
+			var chosen_team = teams.random(teams.length)
+			alert(chosen_team);
+			love++;
+		}
+
+		function myFunction2() {
+			if(love>0) {
+				alert("小天使曰：先按不喜歡再按喜歡是什麼概念?!");
+			} else {
+				if (frisk==0){
+					alert("小天使曰：ㄛ是喔!");
+					frisk++;
+				} else {
+					alert("小天使曰：啦啦啦!");
+					frisk++;
+				}
+			}
+		}
+		</script>
+		<script>
+		function myFunction3() {
+			alert("小天使曰：你是好人!");
+		}
+		</script>
+		<script>
+		function myFunction4() {
+			alert("小天使曰：其實我也這麼覺得ㄟ!");
+		}
+		</script>
+		
+	<p><font size="5"><b>*你覺得這個網站實用嗎?</b></font></p>
+
+	 <a class="waves-effect waves-light btn" button onclick="myFunction5()">哪裡實用了，笑死我。</a><br><br>
+	 <a class="waves-effect waves-light btn" button onclick="myFunction6()">普通(誰知道你問這存什麼心機，才不跟你說勒。)</a><br><br>
+	 <a class="waves-effect waves-light btn" button onclick="myFunction7()">超實用的!!我好喜歡喔!!</a><br><br>
+	 <a class="waves-effect waves-light btn" button onclick="myFunction8()">怎樣都好，反正沒有比我帥/漂亮啦。</a><br><br>
+
+	 	 <script>
+	    
+		function myFunction5() {
+			alert("小天使曰：笑死你最好~");
+		}
+		</script>
+		<script>
+		function myFunction6() {
+			alert("小天使曰：唉，這世界真是黑暗啊!");
+		}
+		</script>
+		<script>
+		function myFunction7() {
+			alert("小天使曰：對不起，小天使無法完全贊同你欸......");
+		}
+		</script>
+		<script>
+		function myFunction8() {
+			alert("小天使曰：鏡子已經破掉了啦!");
+		}
+		</script>
+		
+    </body>
+  </html>
